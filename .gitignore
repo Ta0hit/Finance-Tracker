@@ -49,6 +49,12 @@ artifacts/
 *.tmp_proj
 *_wpftmp.csproj
 
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
 # Entity Framework & Database Files
 *.db
 *.db-shm
@@ -125,3 +131,13 @@ coverage/
 *.docx
 help/
 docs/build/
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+__screenshots__/
