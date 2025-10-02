@@ -73,25 +73,9 @@
       (onDeleteTransaction)="deleteTransaction($event)">
     </app-transaction-list>
 
-    <section class="summary">
-      <h2>Summary</h2>
-      <div class="summary-cards">
-        <div class="summary-card income">
-          <h3>Total Income</h3>
-          <p>${{ getTotalIncome() }}</p>
-        </div>
-        <div class="summary-card expenses">
-          <h3>Total Expenses</h3>
-          <p>${{ getTotalExpenses() }}</p>
-        </div>
-        <div class="summary-card balance">
-          <h3>Balance</h3>
-          <p [ngClass]="getBalance() >= 0 ? 'positive' : 'negative'">
-            ${{ getBalance() }}
-          </p>
-        </div>
-      </div>
-    </section>
+    <app-transaction-summary
+      [transactions]="transactions()">
+    </app-transaction-summary>
   </main>
 </div>
 

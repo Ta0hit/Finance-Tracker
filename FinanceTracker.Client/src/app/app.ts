@@ -5,10 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { TransactionService, Transaction, TransactionType } from './services/transaction';
 import { TransactionFormComponent, TransactionFormData } from './transaction-form/transaction-form';
 import { TransactionListComponent } from './transaction-list/transaction-list';
+import { TransactionSummaryComponent } from './transaction-summary/transaction-summary';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, FormsModule, TransactionFormComponent, TransactionListComponent],
+  imports: [RouterOutlet, CommonModule, FormsModule, TransactionFormComponent, TransactionListComponent, TransactionSummaryComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

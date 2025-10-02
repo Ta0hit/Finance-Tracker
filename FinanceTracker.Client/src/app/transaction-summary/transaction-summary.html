@@ -1,0 +1,37 @@
+<section class="summary">
+  <h2>Summary</h2>
+  <div class="summary-cards">
+    <div class="summary-card income">
+      <div class="card-header">
+        <h3>Total Income</h3>
+        <div class="icon">📈</div>
+      </div>
+      <p class="amount">${{ formatCurrency(totalIncome()) }}</p>
+      <div class="card-footer">
+        <small>{{ incomeTransactionCount() }} transactions</small>
+      </div>
+    </div>
+
+    <div class="summary-card expenses">
+      <div class="card-header">
+        <h3>Total Expenses</h3>
+        <div class="icon">📉</div>
+      </div>
+      <p class="amount">${{ formatCurrency(totalExpenses()) }}</p>
+      <div class="card-footer">
+        <small>{{ expenseTransactionCount() }} transactions</small>
+      </div>
+    </div>
+
+    <div class="summary-card balance" [ngClass]="isBalancePositive() ? 'positive' : 'negative'">
+      <div class="card-header">
+        <h3>Net Balance</h3>
+        <div class="icon">{{ isBalancePositive() ? '💰' : '⚠️' }}</div>
+      </div>
+      <p class="amount">${{ formatCurrency(balance()) }}</p>
+      <div class="card-footer">
+        <small>{{ isBalancePositive() ? 'You have a positive balance!' : 'Budget deficit' }}</small>
+      </div>
+    </div>
+  </div>
+</section>
