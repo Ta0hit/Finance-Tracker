@@ -3,10 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TransactionService, Transaction, TransactionType } from './services/transaction';
+import { TransactionFormComponent, TransactionFormData } from './transaction-form/transaction-form';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, FormsModule],
+  imports: [RouterOutlet, CommonModule, FormsModule, TransactionFormComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -20,15 +21,6 @@ export class App implements OnInit {
   transactions = signal<Transaction[]>([]);
   loading = signal(false);
   error = signal<string | null>(null);
-
-  // Regular properties for form binding (not signals)
-  newTransactionForm = {
-    category: '',
-    amount: 0,
-    date: new Date().toISOString().split('T')[0],
-    type: TransactionType.Expense,
-    notes: ''
-  };
 
   // Filter properties (not signals)
   sortOrder = signal<'asc' | 'desc'>('desc');
@@ -57,28 +49,22 @@ export class App implements OnInit {
     });
   }
 
-  // Create a new transaction
-  addTransaction() {
-    if (!this.newTransactionForm.category || !this.newTransactionForm.amount) {
-      this.error.set('Please fill in all required fields');
-      return;
-    }
-
+  // Handle transaction form submission
+  handleTransactionSubmit(formData: TransactionFormData) {
     this.loading.set(true);
-    this.transactionService.createTransaction(this.newTransactionForm as Transaction).subscribe({
+
+    const transaction: Transaction = {
+      category: formData.category,
+      amount: formData.amount,
+      date: formData.date,
+      type: formData.type as TransactionType,
+      notes: formData.notes
+    };
+
+    this.transactionService.createTransaction(transaction).subscribe({
       next: (created) => {
         // Add the new transaction to the list
         this.transactions.update(current => [...current, created]);
-
-        // Reset the form
-        this.newTransactionForm = {
-          category: '',
-          amount: 0,
-          date: new Date().toISOString().split('T')[0],
-          type: TransactionType.Expense,
-          notes: ''
-        };
-
         this.loading.set(false);
         this.error.set(null);
       },

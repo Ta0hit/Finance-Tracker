@@ -1,0 +1,74 @@
+<section class="add-transaction">
+  <h2>Add New Transaction</h2>
+  <form (ngSubmit)="addTransaction()" class="transaction-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="category">Category *</label>
+        <input
+          type="text"
+          id="category"
+          [value]="newTransactionForm().category"
+          (input)="updateCategory($any($event.target).value)"
+          name="category"
+          placeholder="e.g., Groceries, Gas, Salary"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="amount">Amount *</label>
+        <input
+          type="number"
+          id="amount"
+          [value]="newTransactionForm().amount"
+          (input)="updateAmount(+$any($event.target).value)"
+          name="amount"
+          placeholder="0.00"
+          step="0.01"
+          min="0"
+          required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="date">Date *</label>
+        <input
+          type="date"
+          id="date"
+          [value]="newTransactionForm().date"
+          (input)="updateDate($any($event.target).value)"
+          name="date"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="type">Type *</label>
+        <select
+          id="type"
+          [value]="newTransactionForm().type"
+          (change)="updateType(+$any($event.target).value)"
+          name="type"
+          required>
+          <option value="1">Expense</option>
+          <option value="0">Income</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="notes">Notes (Optional)</label>
+      <textarea
+        id="notes"
+        [value]="newTransactionForm().notes"
+        (input)="updateNotes($any($event.target).value)"
+        name="notes"
+        placeholder="Additional details..."
+        rows="2">
+      </textarea>
+    </div>
+
+    <button type="submit" class="btn-primary" [disabled]="loading()">
+      Add Transaction
+    </button>
+  </form>
+</section>
