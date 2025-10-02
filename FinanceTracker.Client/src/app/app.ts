@@ -6,10 +6,11 @@ import { TransactionService, Transaction, TransactionType } from './services/tra
 import { TransactionFormComponent, TransactionFormData } from './transaction-form/transaction-form';
 import { TransactionListComponent } from './transaction-list/transaction-list';
 import { TransactionSummaryComponent } from './transaction-summary/transaction-summary';
+import { FiltersComponent } from './filters/filters';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, FormsModule, TransactionFormComponent, TransactionListComponent, TransactionSummaryComponent],
+  imports: [RouterOutlet, CommonModule, FormsModule, TransactionFormComponent, TransactionListComponent, TransactionSummaryComponent, FiltersComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -95,11 +96,11 @@ export class App implements OnInit {
   }
 
   // Sort transactions by amount
-  sortByAmount(order: 'asc' | 'desc') {
-    this.sortOrder.set(order);
+  sortByAmount(order: string) {
+    this.sortOrder.set(order as 'asc' | 'desc');
     this.loading.set(true);
 
-    this.transactionService.getTransactionsOrderedByAmount(order).subscribe({
+    this.transactionService.getTransactionsOrderedByAmount(order as 'asc' | 'desc').subscribe({
       next: (data) => {
         this.transactions.set(data);
         this.loading.set(false);

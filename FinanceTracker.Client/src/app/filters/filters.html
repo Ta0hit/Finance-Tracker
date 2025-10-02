@@ -1,0 +1,24 @@
+<section class="filters">
+  <h2>Filter & Sort</h2>
+
+  <div class="filter-controls">
+    <div class="sort-controls">
+      <label>Sort by Amount:</label>
+      <div class="button-group">
+        <button
+          (click)="sortByAmount('desc')"
+          [class.active]="sortOrder() === 'desc'"
+          class="btn-secondary">
+          Descending
+        </button>
+        <button
+          (click)="sortByAmount('asc')"
+          [class.active]="sortOrder() === 'asc'"
+          class="btn-secondary">
+          Ascending
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>

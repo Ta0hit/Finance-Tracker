@@ -23,55 +23,17 @@
       (onSubmit)="handleTransactionSubmit($event)">
     </app-transaction-form>
 
-    <section class="filters">
-      <h2>Filter & Sort</h2>
-
-      <div class="filter-controls">
-
-        <div class="sort-controls">
-          <label>Sort by Amount:</label>
-          <button
-            (click)="sortByAmount('desc')"
-            [class.active]="sortOrder() === 'desc'"
-            class="btn-secondary">
-            Highest First
-          </button>
-          <button
-            (click)="sortByAmount('asc')"
-            [class.active]="sortOrder() === 'asc'"
-            class="btn-secondary">
-            Lowest First
-          </button>
-        </div>
-
-        <div class="range-filter">
-          <label>Filter by Amount Range:</label>
-          <div class="range-inputs">
-            <input
-              type="number"
-              [(ngModel)]="filterMinAmount"
-              name="filterMin"
-              placeholder="Min amount"
-              step="0.01">
-            <span>to</span>
-            <input
-              type="number"
-              [(ngModel)]="filterMaxAmount"
-              name="filterMax"
-              placeholder="Max amount"
-              step="0.01">
-            <button (click)="filterByAmountRange()" class="btn-secondary">Apply</button>
-            <button (click)="clearFilters()" class="btn-outline">Clear</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <app-transaction-list
       [transactions]="transactions()"
       [loading]="loading()"
       (onDeleteTransaction)="deleteTransaction($event)">
     </app-transaction-list>
+
+    <app-filters
+      [sortOrder]="sortOrder()"
+      (onSortByAmount)="sortByAmount($event)"
+      (onClearFilters)="clearFilters()">
+    </app-filters>
 
     <app-transaction-summary
       [transactions]="transactions()">
