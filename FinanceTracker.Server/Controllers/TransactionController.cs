@@ -16,14 +16,94 @@ namespace FinanceTracker.Server.Controllers
             _context = context;
         }
 
-        // GET: api/finance - get all transactions
+        // GET: get all transactions by date
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactions()
         {
             return await _context.Transactions.OrderByDescending(t => t.Date).ToListAsync();
         }
 
-        // GET: api/finance/{id} - get a specific transaction by ID
+        // GET: get transactions ordered by amount
+        [HttpGet("ordered-by-amount")]
+        public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactionsOrderedByAmount(
+            [FromQuery] string order = "desc")
+        {
+            var query = _context.Transactions.AsQueryable();
+
+            if (order.ToLower() == "asc")
+            {
+                query = query.OrderBy(t => t.Amount).ThenByDescending(t => t.Date);
+            }
+            else
+            {
+                query = query.OrderByDescending(t => t.Amount).ThenByDescending(t => t.Date);
+            }
+
+            var transactions = await query.ToListAsync();
+            return transactions;
+        }
+
+        // GET: get transactions ordered by amount in ascending order
+        [HttpGet("by-amount-asc")]
+        public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactionsByAmountAsc()
+        {
+            var transactions = await _context.Transactions
+                .OrderBy(t => t.Amount)
+                .ThenByDescending(t => t.Date)
+                .ToListAsync();
+
+            return transactions;
+        }
+
+        // GET: get transactions ordered by amount in descending order
+        [HttpGet("by-amount-desc")]
+        public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactionsByAmountDesc()
+        {
+            var transactions = await _context.Transactions
+                .OrderByDescending(t => t.Amount)
+                .ThenByDescending(t => t.Date)
+                .ToListAsync();
+
+            return transactions;
+        }
+
+        // GET: get transactions by specified amount
+        [HttpGet("by-amount/{amount}")]
+        public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactionsByAmount(decimal amount)
+        {
+            var transactions = await _context.Transactions
+                .Where(t => t.Amount == amount)
+                .OrderByDescending(t => t.Date)
+                .ToListAsync();
+
+            return transactions;
+        }
+
+        // GET: get transactions greater than specified amount
+        [HttpGet("greater-than/{amount}")]
+        public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactionsGreaterThan(decimal amount)
+        {
+            var transactions = await _context.Transactions
+                .Where(t => t.Amount > amount)
+                .OrderByDescending(t => t.Date)
+                .ToListAsync();
+
+            return transactions;
+        }
+
+        // GET: get transactions less than specified amount
+        [HttpGet("less-than/{amount}")]
+        public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactionsLessThan(decimal amount)
+        {
+            var transactions = await _context.Transactions
+                .Where(t => t.Amount < amount)
+                .OrderByDescending(t => t.Date)
+                .ToListAsync();
+
+            return transactions;
+        }
+
+        // GET: get a specific transaction by ID
         [HttpGet("{id}")]
         public async Task<ActionResult<Transaction>> GetTransaction(int id)
         {
@@ -37,8 +117,8 @@ namespace FinanceTracker.Server.Controllers
             return transaction;
         }
 
-        // POST: api/finance - create a new transaction
-        [HttpPost]
+        // POST: create a new transaction
+        [HttpPost("create")]
         public async Task<ActionResult<Transaction>> CreateTransaction(Transaction transaction)
         {
             if (!ModelState.IsValid)
@@ -52,7 +132,7 @@ namespace FinanceTracker.Server.Controllers
             return CreatedAtAction(nameof(GetTransaction), new { id = transaction.Id }, transaction);
         }
 
-        // PUT: api/finance/{id} - update existing transaction
+        // PUT: update existing transaction
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateTransaction(int id, Transaction transaction)
         {
@@ -87,7 +167,7 @@ namespace FinanceTracker.Server.Controllers
             return NoContent();
         }
 
-        // DELETE: api/finance/{id} - Delete a transaction
+        // DELETE: delete transaction
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTransaction(int id)
         {
@@ -103,7 +183,7 @@ namespace FinanceTracker.Server.Controllers
             return NoContent();
         }
 
-        // Helper method to check if transaction exists
+        // check if transaction exists
         private bool TransactionExists(int id)
         {
             return _context.Transactions.Any(e => e.Id == id);
