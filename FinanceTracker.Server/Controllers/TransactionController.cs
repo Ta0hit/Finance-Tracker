@@ -43,30 +43,6 @@ namespace FinanceTracker.Server.Controllers
             return transactions;
         }
 
-        // GET: get transactions ordered by amount in ascending order
-        [HttpGet("by-amount-asc")]
-        public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactionsByAmountAsc()
-        {
-            var transactions = await _context.Transactions
-                .OrderBy(t => t.Amount)
-                .ThenByDescending(t => t.Date)
-                .ToListAsync();
-
-            return transactions;
-        }
-
-        // GET: get transactions ordered by amount in descending order
-        [HttpGet("by-amount-desc")]
-        public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactionsByAmountDesc()
-        {
-            var transactions = await _context.Transactions
-                .OrderByDescending(t => t.Amount)
-                .ThenByDescending(t => t.Date)
-                .ToListAsync();
-
-            return transactions;
-        }
-
         // GET: get transactions by specified amount
         [HttpGet("by-amount/{amount}")]
         public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactionsByAmount(decimal amount)
