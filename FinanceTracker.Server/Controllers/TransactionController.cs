@@ -7,11 +7,11 @@ namespace FinanceTracker.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class FinanceController : ControllerBase
+    public class TransactionController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public FinanceController(ApplicationDbContext context)
+        public TransactionController(ApplicationDbContext context)
         {
             _context = context;
         }
