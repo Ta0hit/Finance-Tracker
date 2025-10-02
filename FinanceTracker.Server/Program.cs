@@ -17,7 +17,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularClient", policy =>
-        policy.WithOrigins("http://localhost:4200") // Angular dev server URL
+        policy.WithOrigins("http://localhost:4200") // Angular url
             .AllowAnyHeader()
             .AllowAnyMethod());
 });
@@ -30,19 +30,18 @@ if (app.Environment.IsDevelopment())
     //app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseHttpsRedirection(); // might need to move
 }
 
+app.UseHttpsRedirection();
 app.UseCors("AllowAngularClient");
 app.UseAuthorization();
 app.MapControllers();
 
-// Create and seed the database
-
+// Create and seed database
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    db.Database.EnsureCreated();
+    db.Database.Migrate();
 }
 
 app.Run();

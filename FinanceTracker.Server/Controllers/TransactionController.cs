@@ -32,11 +32,11 @@ namespace FinanceTracker.Server.Controllers
 
             if (order.ToLower() == "asc")
             {
-                query = query.OrderBy(t => t.Amount).ThenByDescending(t => t.Date);
+                query = query.OrderBy(t => (int)t.Amount).ThenByDescending(t => t.Date);
             }
             else
             {
-                query = query.OrderByDescending(t => t.Amount).ThenByDescending(t => t.Date);
+                query = query.OrderByDescending(t => (int)t.Amount).ThenByDescending(t => t.Date);
             }
 
             var transactions = await query.ToListAsync();

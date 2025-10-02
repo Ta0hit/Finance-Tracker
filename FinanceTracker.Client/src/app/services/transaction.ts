@@ -6,7 +6,7 @@ export interface Transaction {
   id?: number;
   category: string;
   amount: number;
-  date: string; // ISO date string
+  date: string;
   type: TransactionType;
   notes?: string;
 }
@@ -20,7 +20,8 @@ export enum TransactionType {
   providedIn: 'root'
 })
 export class TransactionService {
-  private apiUrl = 'https://localhost:5136/api/transaction';
+  //private apiUrl = '/api/Transaction';
+  private apiUrl = 'http://localhost:5136/api/transaction';
 
   constructor(private http: HttpClient) { }
 
@@ -48,7 +49,7 @@ export class TransactionService {
     return this.http.get<Transaction[]>(`${this.apiUrl}/ordered-by-amount?order=${order}`);
   }
 
-  getTransactionsByExactAmount(amount: number): Observable<Transaction[]> {
+  getTransactionsByAmount(amount: number): Observable<Transaction[]> {
     return this.http.get<Transaction[]>(`${this.apiUrl}/by-amount/${amount}`);
   }
 
@@ -71,5 +72,12 @@ export class TransactionService {
   getExpenseTransactions(): Observable<Transaction[]> {
     return this.http.get<Transaction[]>(`${this.apiUrl}?type=${TransactionType.Expense}`);
   }
-  
+
+  getLargestTransactions(): Observable<Transaction[]> {
+    return this.getTransactionsOrderedByAmount('desc');
+  }
+
+  getSmallestTransactions(): Observable<Transaction[]> {
+    return this.getTransactionsOrderedByAmount('asc');
+  }
 }
