@@ -44,7 +44,7 @@ namespace FinanceTracker.Server.Controllers
         }
 
         // GET: get transactions by specified amount
-        [HttpGet("by-amount/{amount}")]
+        [HttpGet("by-exact-amount/{amount}")]
         public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactionsByAmount(decimal amount)
         {
             var transactions = await _context.Transactions
