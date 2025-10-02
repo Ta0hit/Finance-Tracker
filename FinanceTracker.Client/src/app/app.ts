@@ -4,10 +4,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TransactionService, Transaction, TransactionType } from './services/transaction';
 import { TransactionFormComponent, TransactionFormData } from './transaction-form/transaction-form';
+import { TransactionListComponent } from './transaction-list/transaction-list';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, FormsModule, TransactionFormComponent],
+  imports: [RouterOutlet, CommonModule, FormsModule, TransactionFormComponent, TransactionListComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

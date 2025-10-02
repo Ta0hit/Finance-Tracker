@@ -1,0 +1,39 @@
+<section class="transactions-list">
+  <h2>Transactions</h2>
+
+  @if (transactions().length === 0 && !loading()) {
+    <div class="empty-state">
+      <p>No transactions found. Add your first transaction above!</p>
+    </div>
+  } @else {
+    <div class="transactions-grid">
+      @for (transaction of transactions(); track transaction.id) {
+        <div class="transaction-card" [ngClass]="getTransactionTypeClass(transaction.type)">
+          <div class="transaction-header">
+            <h3>{{ transaction.category }}</h3>
+            <span class="amount">
+              {{ transaction.type === 0 ? '+' : '-' }}${{ transaction.amount }}
+            </span>
+          </div>
+
+          <div class="transaction-details">
+            <p class="date">{{ transaction.date | date:'mediumDate' }}</p>
+            <p class="type">{{ getTransactionTypeText(transaction.type) }}</p>
+            @if (transaction.notes) {
+              <p class="notes">{{ transaction.notes }}</p>
+            }
+          </div>
+
+          <div class="transaction-actions">
+            <button
+              (click)="deleteTransaction(transaction.id!)"
+              class="btn-danger"
+              title="Delete transaction">
+              Delete
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</section>
