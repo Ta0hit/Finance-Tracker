@@ -30,9 +30,9 @@ if (app.Environment.IsDevelopment())
     //app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseHttpsRedirection(); // might need to move
 }
 
-app.UseHttpsRedirection();
 app.UseCors("AllowAngularClient");
 app.UseAuthorization();
 app.MapControllers();
